@@ -1,6 +1,5 @@
 module Main
 
-open Fable.Core.JsInterop
 open Feliz
 open Elmish
 open Elmish.Bridge
@@ -19,29 +18,24 @@ let init _ =
         data = []
     }, Cmd.none
 
-type Message =
-    | ClientMsg of Shared.ClientMsg
-    | ServerMsg of Shared.ServerMsg
-
-let update (msg: Message) (model: Model) =
+let update (msg: SharedMsg) (model: Model) =
     match msg with
-    | ClientMsg clientMsg ->
+    | SharedMsg.ClientMsg clientMsg ->
         match clientMsg with
         | Data data ->
             addData.fire data
             {model with data = data}, Cmd.none
-    | ServerMsg serverMsg ->
+    | SharedMsg.ServerMsg serverMsg ->
         model, Cmd.bridgeSend serverMsg
 
 let view (model: Model) dispatch =
     Html.div [
         Html.button [
             prop.text "Click me!"
-            prop.onClick  (fun _ -> Message.ServerMsg ServerMsg.RequestData |> dispatch)
+            prop.onClick  (fun _ -> SharedMsg.ServerMsg ServerMsg.RequestData |> dispatch)
         ]
         DataDisplayer ()
     ]
-
 
 Program.mkProgram init update view
 |> Bridge.Program.withBridge Shared.endpoint

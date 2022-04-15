@@ -27,11 +27,14 @@ var CONFIG = {
     // to a external API server. See https://webpack.js.org/configuration/dev-server/#devserver-proxy
     devServerProxy: {
         '/api/*': {
-            // assuming the backend is running on port 5000
-            target: "http://localhost:5000",
-            changeOrigin: true
-        }
-    },
+          target: 'http://localhost:' + 8081,
+          changeOrigin: true
+        },
+        '/socket': {
+          target: 'http://localhost:' + 8081,
+          ws: true
+       }
+      },
     // Use babel-preset-env to generate JS compatible with most-used browsers.
     // More info at https://babeljs.io/docs/en/next/babel-preset-env.html
     babel: {

@@ -6,5 +6,9 @@ type ServerMsg =
 // Messages processed on the client
 type ClientMsg =
     | Data of int list
+// Shared messages
+type SharedMsg =
+    | ClientMsg of ClientMsg
+    | ServerMsg of ServerMsg
 module Shared =
     let endpoint = "/socket"

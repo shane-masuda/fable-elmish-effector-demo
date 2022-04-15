@@ -16,7 +16,7 @@ let init dispatch _ =
 let update dispatch (msg: Shared.ServerMsg) (model: Model) =
     match msg with
     | RequestData ->
-        dispatch model.data
+        Data model.data |> SharedMsg.ClientMsg |> dispatch
         model, Cmd.none
 
 let server =
@@ -27,6 +27,7 @@ let config = {
     Suave.Web.defaultConfig with
       bindings = [ Suave.Http.HttpBinding.createSimple Suave.Http.HTTP "127.0.0.1" 8081 ]
 }
+
 
 let webPart =
   Suave.WebPart.choose [

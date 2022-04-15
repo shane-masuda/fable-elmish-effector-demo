@@ -31,6 +31,21 @@ export function ClientMsg$reflection() {
     return union_type("Shared.ClientMsg", [], ClientMsg, () => [[["Item", list_type(int32_type)]]]);
 }
 
+export class SharedMsg extends Union {
+    constructor(tag, ...fields) {
+        super();
+        this.tag = (tag | 0);
+        this.fields = fields;
+    }
+    cases() {
+        return ["ClientMsg", "ServerMsg"];
+    }
+}
+
+export function SharedMsg$reflection() {
+    return union_type("Shared.SharedMsg", [], SharedMsg, () => [[["Item", ClientMsg$reflection()]], [["Item", ServerMsg$reflection()]]]);
+}
+
 export const Shared_endpoint = "/socket";
 
 //# sourceMappingURL=Shared.fs.js.map
